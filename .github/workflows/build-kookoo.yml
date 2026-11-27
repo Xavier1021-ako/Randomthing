@@ -12,7 +12,7 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Download game source (skip non-Windows filename in repository)
+      - name: Download game source
         shell: pwsh
         run: |
           Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Xavier1021-ako/Randomthing/main/kookoo.py" -OutFile "kookoo.py"
@@ -21,9 +21,10 @@ jobs:
         with:
           python-version: "3.12"
       - name: Build Windows executable
+        shell: pwsh
         run: |
-          py -m pip install --upgrade pyinstaller
-          pyinstaller --noconfirm --clean --onefile --windowed --name kookoo kookoo.py
+          python -m pip install --upgrade pyinstaller
+          python -m PyInstaller --noconfirm --clean --onefile --windowed --name kookoo kookoo.py
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
