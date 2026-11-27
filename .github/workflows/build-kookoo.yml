@@ -12,14 +12,20 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Check out repository
+      - name: Check out only the game source
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            kookoo.py
+          sparse-checkout-cone-mode: false
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Build Windows executable
-        run: py -m pip install --upgrade pyinstaller && pyinstaller --noconfirm --clean --onefile --windowed --name kookoo kookoo.py
+        run: |
+          py -m pip install --upgrade pyinstaller
+          pyinstaller --noconfirm --clean --onefile --windowed --name kookoo kookoo.py
       - name: Upload EXE
         uses: actions/upload-artifact@v4
         with:
