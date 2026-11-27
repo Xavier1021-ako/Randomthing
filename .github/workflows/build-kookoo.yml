@@ -12,12 +12,10 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - name: Check out only the game source
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            kookoo.py
-          sparse-checkout-cone-mode: false
+      - name: Download game source (skip non-Windows filename in repository)
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://raw.githubusercontent.com/Xavier1021-ako/Randomthing/main/kookoo.py" -OutFile "kookoo.py"
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
